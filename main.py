@@ -1,9 +1,18 @@
+from asteroidfield import *
+from asteroid import *
 from player import Player
 from constants import *
 import pygame
 
 def main():
     pygame.init
+    asteroids = pygame.sprite.Group()
+    updateable = pygame.sprite.Group()
+    drawable = pygame.sprite.Group()
+    AsteroidField.containers = (updateable)
+    Asteroid.containers = (asteroids, updateable, drawable)
+    Player.containers = (updateable, drawable)
+    Background = AsteroidField()
     Carne = Player(x = SCREEN_WIDTH / 2, y = SCREEN_HEIGHT / 2, radius= PLAYER_RADIUS)
     Clock = pygame.time.Clock()
     dt = 0
@@ -15,9 +24,10 @@ def main():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 return
-        Carne.update(dt)
+        updateable.update(dt)
         screen.fill(0)
-        Carne.draw(screen)
+        for obj in drawable:
+            obj.draw(screen)
         pygame.display.flip()
         dt = Clock.tick(60) / 1000
 
