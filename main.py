@@ -1,3 +1,4 @@
+import sys
 from asteroidfield import *
 from asteroid import *
 from player import Player
@@ -25,6 +26,10 @@ def main():
             if event.type == pygame.QUIT:
                 return
         updateable.update(dt)
+        for asteroid in asteroids:
+            if asteroid.collide(Carne):
+                print("Game Over!")
+                sys.exit()
         screen.fill(0)
         for obj in drawable:
             obj.draw(screen)
